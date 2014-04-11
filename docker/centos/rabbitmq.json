@@ -1,0 +1,36 @@
+{
+    "builders": [
+        {
+            "type": "docker",
+            "image": "centos:6.5",
+            "export_path": "rabbitmq.tar",
+            "pull": false
+        }
+    ],
+    "provisioners": [
+        {
+            "cookbook_paths": [
+                "packer_cache/cookbooks"
+            ],
+            "json": {
+                "rabbitmq": {
+                    "enabled_plugins": [
+                        "rabbitmq_management"
+                    ]
+                }
+            },
+            "run_list": [
+                "rabbitmq",
+                "rabbitmq::plugin_management"
+            ],
+            "type": "chef-solo",
+            "prevent_sudo": true
+        },
+        {
+            "scripts": [
+                "scripts/rabbitmq.sh"
+            ],
+            "type": "shell"
+        }
+    ]
+}

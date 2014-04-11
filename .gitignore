@@ -1,1 +1,6 @@
 packer_cache
+output-virtualbox-ovf
+.*.swp
+*.vmdk
+*.ovf
+*.box

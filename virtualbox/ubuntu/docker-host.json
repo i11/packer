@@ -1,0 +1,84 @@
+{
+    "variables": {
+        "HOME": "{{env `HOME`}}"
+    },
+    "builders": [
+        {
+            "shutdown_command": "sudo shutdown -P now",
+            "source_path": "box.ovf",
+            "ssh_key_path": "{{user `HOME`}}/.vagrant.d/insecure_private_key",
+            "ssh_username": "vagrant",
+            "headless": true,
+            "ssh_wait_timeout": "3m",
+            "type": "virtualbox-ovf",
+            "vboxmanage": [
+                [
+                    "modifyvm",
+                    "{{.Name}}",
+                    "--memory",
+                    "4096"
+                ],
+                [
+                    "modifyvm",
+                    "{{.Name}}",
+                    "--vram",
+                    "16"
+                ],
+                [
+                    "modifyvm",
+                    "{{.Name}}",
+                    "--nictype1",
+                    "virtio"
+                ],
+                [
+                    "modifyvm",
+                    "{{.Name}}",
+                    "--natdnsproxy1",
+                    "off"
+                ],
+                [
+                    "modifyvm",
+                    "{{.Name}}",
+                    "--natdnshostresolver1",
+                    "off"
+                ],
+                [
+                    "storageattach",
+                    "{{.Name}}",
+                    "--storagectl",
+                    "SATA Controller",
+                    "--port",
+                    "0",
+                    "--nonrotational",
+                    "on"
+                ]
+            ],
+            "virtualbox_version_file": ".vbox_version"
+        }
+    ],
+    "post-processors": [
+        {
+            "compression_level": 9,
+            "type": "vagrant",
+            "output": "docker-host-ubuntu1310.box"
+        }
+    ],
+    "provisioners": [
+        {
+            "override": {
+                "virtualbox-ovf": {
+                    "execute_command": "chmod +x {{ .Path }}; {{ .Vars }} sudo -E '{{ .Path }}'"
+                }
+            },
+            "scripts": [
+                "scripts/ruby.sh",
+                "scripts/berkshelf.sh",
+                "scripts/docker.sh",
+                "scripts/packer.sh",
+                "scripts/chef.sh",
+                "scripts/cleanup.sh"
+            ],
+            "type": "shell"
+        }
+    ]
+}

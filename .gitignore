@@ -4,3 +4,4 @@ output-virtualbox-ovf
 *.vmdk
 *.ovf
 *.box
+*.vdi

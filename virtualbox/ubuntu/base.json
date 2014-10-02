@@ -35,46 +35,12 @@
             ],
             "type": "virtualbox-iso",
             "vboxmanage": [
-                [
-                    "modifyvm",
-                    "{{.Name}}",
-                    "--memory",
-                    "2048"
-                ],
-                [
-                    "modifyvm",
-                    "{{.Name}}",
-                    "--vram",
-                    "16"
-                ],
-                [
-                    "modifyvm",
-                    "{{.Name}}",
-                    "--nictype1",
-                    "virtio"
-                ],
-                [
-                    "modifyvm",
-                    "{{.Name}}",
-                    "--natdnsproxy1",
-                    "off"
-                ],
-                [
-                    "modifyvm",
-                    "{{.Name}}",
-                    "--natdnshostresolver1",
-                    "off"
-                ],
-                [
-                    "storageattach",
-                    "{{.Name}}",
-                    "--storagectl",
-                    "SATA Controller",
-                    "--port",
-                    "0",
-                    "--nonrotational",
-                    "on"
-                ]
+                [ "modifyvm", "{{.Name}}", "--memory", "2048" ],
+                [ "modifyvm", "{{.Name}}", "--vram", "32" ],
+                [ "modifyvm", "{{.Name}}", "--nictype1", "virtio" ],
+                [ "modifyvm", "{{.Name}}", "--natdnsproxy1", "off" ],
+                [ "modifyvm", "{{.Name}}", "--natdnshostresolver1", "off" ],
+                [ "storageattach", "{{.Name}}", "--storagectl", "SATA Controller", "--port", "0", "--nonrotational", "on" ]
             ],
             "virtualbox_version_file": ".vbox_version"
         }
@@ -94,7 +60,7 @@
       {
         "compression_level": 9,
         "type": "vagrant",
-        "output": "base-ubuntu.box"
+        "output": "ubuntu-base.box"
       }
     ]
 }

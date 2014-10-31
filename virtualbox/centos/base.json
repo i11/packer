@@ -43,7 +43,7 @@
     {
       "compression_level": 9,
       "type": "vagrant",
-      "output": "base-centos65.box"
+      "output": "centos-base.box"
     }
   ],
   "provisioners": [

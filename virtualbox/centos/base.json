@@ -1,93 +1,61 @@
 {
-    "variables": {
-        "HOME": "{{env `HOME`}}"
-    },
-    "builders": [
-        {
-            "boot_command": [
-                "<tab> text ks=http://{{.HTTPIP}}:{{.HTTPPort}}/ks.cfg<enter><wait>"
-            ],
-            "boot_wait": "10s",
-            "disk_size": 8192,
-            "headless": true,
-            "guest_os_type": "RedHat_64",
-            "hard_drive_interface": "sata",
-            "http_directory": "web",
-            "iso_checksum": "83221db52687c7b857e65bfe60787838",
-            "iso_checksum_type": "md5",
-            "iso_urls": [
-                "http://mirror.nsc.liu.se/CentOS/6.5/isos/x86_64/CentOS-6.5-x86_64-bin-DVD1.iso"
-            ],
-            "shutdown_command": "shutdown -P now",
-            "ssh_host_port_max": 3200,
-            "ssh_host_port_min": 2200,
-            "ssh_key_path": "{{user `HOME`}}/.vagrant.d/insecure_private_key",
-            "ssh_password": "vagrant",
-            "ssh_username": "root",
-            "ssh_wait_timeout": "20m",
-            "type": "virtualbox-iso",
-            "vboxmanage": [
-                [
-                    "modifyvm",
-                    "{{.Name}}",
-                    "--memory",
-                    "4096"
-                ],
-                [
-                    "modifyvm",
-                    "{{.Name}}",
-                    "--vram",
-                    "16"
-                ],
-                [
-                    "modifyvm",
-                    "{{.Name}}",
-                    "--nictype1",
-                    "virtio"
-                ],
-                [
-                    "modifyvm",
-                    "{{.Name}}",
-                    "--natdnsproxy1",
-                    "off"
-                ],
-                [
-                    "modifyvm",
-                    "{{.Name}}",
-                    "--natdnshostresolver1",
-                    "off"
-                ],
-                [
-                    "storageattach",
-                    "{{.Name}}",
-                    "--storagectl",
-                    "SATA Controller",
-                    "--port",
-                    "0",
-                    "--nonrotational",
-                    "on"
-                ]
-            ],
-            "virtualbox_version_file": ".vbox_version"
-        }
-    ],
-    "post-processors": [
-        {
-            "compression_level": 9,
-            "type": "vagrant",
-            "output": "base-centos65.box"
-        }
-    ],
-    "provisioners": [
-        {
-            "scripts": [
-                "scripts/base.sh",
-                "scripts/vagrant.sh",
-                "scripts/tuned.sh",
-                "scripts/virtualbox.sh",
-                "scripts/cleanup.sh"
-            ],
-            "type": "shell"
-        }
-    ]
+  "variables": {
+    "HOME": "{{env `HOME`}}",
+    "DIST_VERSION": "6.5",
+    "ISO_MD5SUM": "83221db52687c7b857e65bfe60787838"
+  },
+  "builders": [
+    {
+      "boot_command": [
+      "<tab> text ks=http://{{.HTTPIP}}:{{.HTTPPort}}/ks.cfg<enter><wait>"
+      ],
+      "boot_wait": "10s",
+      "disk_size": 8192,
+      "headless": true,
+      "guest_os_type": "RedHat_64",
+      "hard_drive_interface": "sata",
+      "http_directory": "web",
+      "iso_checksum": "{{user `ISO_MD5SUM`}}",
+      "iso_checksum_type": "md5",
+      "iso_urls": [
+      "http://mirror.nsc.liu.se/CentOS/{{user `DIST_VERSION`}}/isos/x86_64/CentOS-{{user `DIST_VERSION`}}-x86_64-bin-DVD1.iso"
+      ],
+      "shutdown_command": "shutdown -P now",
+      "ssh_host_port_max": 3200,
+      "ssh_host_port_min": 2200,
+      "ssh_key_path": "{{user `HOME`}}/.vagrant.d/insecure_private_key",
+      "ssh_password": "vagrant",
+      "ssh_username": "root",
+      "ssh_wait_timeout": "20m",
+      "type": "virtualbox-iso",
+      "vboxmanage": [
+        [ "modifyvm", "{{.Name}}", "--memory",              "2048"    ],
+        [ "modifyvm", "{{.Name}}", "--vram",                "32"      ],
+        [ "modifyvm", "{{.Name}}", "--nictype1",            "virtio"  ],
+        [ "modifyvm", "{{.Name}}", "--natdnsproxy1",        "off"     ],
+        [ "modifyvm", "{{.Name}}", "--natdnshostresolver1", "off"     ],
+        [ "storageattach", "{{.Name}}", "--storagectl", "SATA Controller", "--port", "0", "--nonrotational", "on" ]
+      ],
+      "virtualbox_version_file": ".vbox_version"
+    }
+  ],
+  "post-processors": [
+    {
+      "compression_level": 9,
+      "type": "vagrant",
+      "output": "base-centos65.box"
+    }
+  ],
+  "provisioners": [
+    {
+      "scripts": [
+      "scripts/base.sh",
+      "scripts/vagrant.sh",
+      "scripts/tuned.sh",
+      "scripts/virtualbox.sh",
+      "scripts/cleanup.sh"
+      ],
+      "type": "shell"
+    }
+  ]
 }

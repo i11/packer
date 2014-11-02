@@ -26,7 +26,7 @@
     {
       "compression_level": 9,
       "type": "vagrant",
-      "output": "ubuntu-puppet-base.box"
+      "output": "centos-puppet-base.box"
     }
   ],
   "provisioners": [

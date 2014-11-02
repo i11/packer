@@ -5,3 +5,5 @@ output-virtualbox-ovf
 *.ovf
 *.box
 *.vdi
+metadata.json
+Vagrantfile
